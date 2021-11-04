@@ -1,7 +1,19 @@
 {
-  "name": "steno",
+  "name": "steno-hybrid",
   "version": "2.1.0",
   "description": "Specialized fast async file writer",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "exports": {
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js"
+  },
+  "files": [
+    "lib/esm/index.js",
+    "lib/cjs/index.js",
+    "lib/types/index.d.ts"
+  ],
+  "types": "./lib/types/index.d.ts",
   "keywords": [
     "fs",
     "file",
@@ -15,27 +27,23 @@
     "writing",
     "safe"
   ],
-  "homepage": "https://github.com/typicode/steno",
+  "homepage": "https://github.com/crashmax-dev/steno-hybrid",
   "bugs": {
-    "url": "https://github.com/typicode/steno/issues"
+    "url": "https://github.com/crashmax-dev/steno-hybrid/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/typicode/steno.git"
+    "url": "https://github.com/crashmax-dev/steno-hybrid.git"
   },
   "funding": "https://github.com/sponsors/typicode",
   "license": "MIT",
   "author": "Typicode <typicode@gmail.com>",
-  "type": "module",
-  "exports": "./lib/index.js",
-  "types": "lib/index.d.ts",
-  "files": [
-    "lib/index.js",
-    "lib/index.d.ts"
-  ],
   "scripts": {
     "test": "npm run build && xv lib",
-    "build": "del-cli lib && tsc",
+    "build": "del-cli lib && concurrently npm:build:* && bash ./scripts/hybrid.sh",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:types": "tsc -p tsconfig.types.json",
     "lint": "eslint src --ext .ts --ignore-path .gitignore",
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
@@ -50,6 +58,7 @@
     "@sindresorhus/tsconfig": "^1.0.2",
     "@types/node": "^16.6.1",
     "@typicode/eslint-config": "^0.1.2",
+    "concurrently": "^6.3.0",
     "del-cli": "^4.0.1",
     "husky": "^7.0.1",
     "typescript": "^4.3.5",

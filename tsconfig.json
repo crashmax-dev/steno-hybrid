@@ -1,6 +1,13 @@
 {
   "extends": "@sindresorhus/tsconfig",
   "compilerOptions": {
-    "outDir": "./lib"
+    "outDir": "./lib/esm",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "target": "ESNext",
+    "declaration": false
   }
 }
